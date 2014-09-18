@@ -25,6 +25,9 @@ namespace ExceptionsCollectionSystem
         //int resultCount = -1;
         List<Button> listbtn = new List<Button>();
 
+
+        #region  控件事件
+
         private void picShowresult_Click(object sender, EventArgs e)
         {
             Bitmap imageShow = new Bitmap(Application.StartupPath + @"\Resources\show.jpg");
@@ -92,6 +95,18 @@ namespace ExceptionsCollectionSystem
             txtKeywork.AutoCompleteCustomSource = getSuggestSource(tableName, column);
         }
 
+        //private void flowLayoutPanel1_SizeChanged(object sender, EventArgs e)
+        //{
+        //    if (flowLayoutPanel1.AutoScroll == true)
+        //        txtKeywork.Text = "true";
+        //    else
+        //        txtKeywork.Text = "false";
+        //}
+
+        #endregion
+
+
+        #region 私有方法
         private AutoCompleteStringCollection getSuggestSource(string tableName, string column)
         {
             DataDisposes dataDisposes = new DataDisposes();
@@ -118,7 +133,11 @@ namespace ExceptionsCollectionSystem
                 exInfo.Show();
             }
         }
-        //查询
+
+
+        /// <summary>
+        /// 根据用户选择的查询方式查询
+        /// </summary>
         private void DoQuery()
         {
             //resultCount = 0;
@@ -134,17 +153,16 @@ namespace ExceptionsCollectionSystem
                         break;
                     case "用户名":
                         List<int> listUserID = UserInfoManage.FindByNameArr(txtKeywork.Text.Trim());
-
                         queryByName(listUserID);
                         return; //完全跳出
                     case "项目名称":
                         List<int> listProID = ProjectInfoManage.FindByNameArr(txtKeywork.Text.Trim());
                         queryByName(listProID);
-                        return;////完全跳出
+                        return;//完全跳出
                     case "异常类型":
                         List<int> listTypeID = ExceptionsTypeManage.FindByNameArr(txtKeywork.Text.Trim());
                         queryByName(listTypeID);
-                        return;
+                        return;//完全跳出
                     case "异常ID":
                         whereStr = "exceptionID like '%" + txtKeywork.Text.Trim() + "%'";
                         break;
@@ -164,7 +182,12 @@ namespace ExceptionsCollectionSystem
                 }
             }
         }
-        //汉字转ID查询
+        
+
+        /// <summary>
+        /// 通过ID查询异常信息
+        /// </summary>
+        /// <param name="listID"></param>
         private void queryByName(List<int> listID)
         {
             flowLayoutPanel1.Controls.Clear();
@@ -175,8 +198,12 @@ namespace ExceptionsCollectionSystem
                 //getResultCount(list);
                 AddResult(list);
             }
+            pnlResultDorkSetting();
         }
-        //添加结果到listbtn里面
+        /// <summary>
+        /// 添加结果到列表框里面
+        /// </summary>
+        /// <param name="list">完整的异常信息list</param>
         private void AddResult(List<ExceptionsInfo> list)
         {
             if (list.Count != 0)
@@ -191,27 +218,28 @@ namespace ExceptionsCollectionSystem
                     btn.Click += new System.EventHandler(this.btnResultArr_Click);
                     btn.Text = "ID：" + n.ID + "，" + n.ExcepitionName + "\r\n标签：" + n.ProjectID + "，" + n.UserID + "\r\n异常信息：" + n.ExcepitionID + "，" + n.TypeID + "\r\n问题描述：" + n.ExcepitionDescri;
                     flowLayoutPanel1.Controls.Add(btn);
-                    //listbtn.Add(btn);
                     
                 }
-                if (flowLayoutPanel1.Controls.Count > 7)
-                {
-                    pnlTurnPage.Dock = DockStyle.Bottom;
-                }
-                else pnlTurnPage.Dock = DockStyle.None;
-                pnlResult.Dock = DockStyle.Left;
             }
+            
+            pnlResultDorkSetting();
         }
 
 
-        //检索结果总量
-        //private void getResultCount(List<ExceptionsInfo> list)
-        //{
-        //    resultCount += list.Count;
-        //}
-        //private void insertToPanel()
-        //{
-        //    for(int i=0;i<
-        //}
+        /// <summary>
+        /// 设置查询结果列表框的显示和隐藏
+        /// </summary>
+        private void pnlResultDorkSetting()
+        {
+            if (flowLayoutPanel1.Controls.Count > 0)
+            {
+                pnlResult.Dock = DockStyle.Left;
+            }
+            else pnlResult.Dock = DockStyle.None;
+        }
+
+        #endregion 
+        
+
     }
 }

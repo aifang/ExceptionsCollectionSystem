@@ -16,8 +16,8 @@ namespace ExceptionsCollectionSystem
             ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new mainfrm());
-            //Application.Run(new mapShow());
+            //Application.Run(new mainfrm());
+            Application.Run(new mapShow());
         }
     }
 }
