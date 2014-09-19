@@ -35,6 +35,10 @@ namespace BLL
             return list;
         }
 
+        public static int returnCount(string whereStr)
+        {
+            return ExceptionsInfoService.returnCount(whereStr);
+        }
         
     }
 }

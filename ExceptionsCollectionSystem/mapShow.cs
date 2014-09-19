@@ -22,7 +22,7 @@ namespace ExceptionsCollectionSystem
         string tableName = null;
         string column = null;
         string columnID = null;
-        //int resultCount = -1;
+        int count = 0;
         List<Button> listbtn = new List<Button>();
 
 
@@ -47,12 +47,16 @@ namespace ExceptionsCollectionSystem
         private void txtKeywork_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
+            {
                 DoQuery();
+                turnPaper1.setCount(count);
+            }
         }
 
         private void btnQuery_Click(object sender, EventArgs e)
         {
             DoQuery();
+            turnPaper1.setCount(count);
         }
 
         private void cmbo_TextChanged(object sender, EventArgs e)
@@ -95,14 +99,7 @@ namespace ExceptionsCollectionSystem
             txtKeywork.AutoCompleteCustomSource = getSuggestSource(tableName, column);
         }
 
-        //private void flowLayoutPanel1_SizeChanged(object sender, EventArgs e)
-        //{
-        //    if (flowLayoutPanel1.AutoScroll == true)
-        //        txtKeywork.Text = "true";
-        //    else
-        //        txtKeywork.Text = "false";
-        //}
-
+       
         #endregion
 
 
@@ -140,7 +137,7 @@ namespace ExceptionsCollectionSystem
         /// </summary>
         private void DoQuery()
         {
-            //resultCount = 0;
+            count = 0;
             listbtn.Clear();
             if (cmbo.Text != "" && txtKeywork.Text.Trim() != "")
             {
@@ -177,8 +174,8 @@ namespace ExceptionsCollectionSystem
                 {
                     list = ExceptionsInfoManage.findTop10(1, whereStr);
                     flowLayoutPanel1.Controls.Clear();
-                    //getResultCount(list);
                     AddResult(list);
+                    count = ExceptionsInfoManage.returnCount(whereStr);
                 }
             }
         }
@@ -190,14 +187,17 @@ namespace ExceptionsCollectionSystem
         /// <param name="listID"></param>
         private void queryByName(List<int> listID)
         {
+            int _count=0;
             flowLayoutPanel1.Controls.Clear();
             foreach (int ex in listID)
             {
                 string whereStr= columnID+"="+ex;
                 List<ExceptionsInfo> list = ExceptionsInfoManage.findTop10(1,whereStr);
-                //getResultCount(list);
                 AddResult(list);
+                _count = ExceptionsInfoManage.returnCount(whereStr);
+                count += _count;
             }
+            
             pnlResultDorkSetting();
         }
         /// <summary>
@@ -210,16 +210,11 @@ namespace ExceptionsCollectionSystem
             {
                 foreach(ExceptionsInfo n in list)
                 {
-                    Button btn = new Button();
-                    btn.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
-                    btn.Size = new System.Drawing.Size(206, 62);
-                    btn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                    btn.UseVisualStyleBackColor = true;
-                    btn.Click += new System.EventHandler(this.btnResultArr_Click);
-                    btn.Text = "ID：" + n.ID + "，" + n.ExcepitionName + "\r\n标签：" + n.ProjectID + "，" + n.UserID + "\r\n异常信息：" + n.ExcepitionID + "，" + n.TypeID + "\r\n问题描述：" + n.ExcepitionDescri;
+                    //Button btn = new Button();
+                    Button btn = createNewButton(n);
                     flowLayoutPanel1.Controls.Add(btn);
-                    
                 }
+                
             }
             
             pnlResultDorkSetting();
@@ -236,6 +231,26 @@ namespace ExceptionsCollectionSystem
                 pnlResult.Dock = DockStyle.Left;
             }
             else pnlResult.Dock = DockStyle.None;
+        }
+
+        /// <summary>
+        /// 新建结果按钮
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        private Button createNewButton(ExceptionsInfo n)
+        {
+            Button btn = new Button();
+            btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            btn.FlatAppearance.BorderSize = 0;
+            btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btn.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            btn.Size = new System.Drawing.Size(205, 62);
+            btn.Text = "ID：" + n.ID + "，" + n.ExcepitionName + "\r\n标签：" + n.ProjectID + "，" + n.UserID + "\r\n异常信息：" + n.ExcepitionID + "，" + n.TypeID + "\r\n问题描述：" + n.ExcepitionDescri;
+            btn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            btn.UseVisualStyleBackColor = true;
+            btn.Click += new System.EventHandler(this.btnResultArr_Click);
+            return btn;
         }
 
         #endregion 

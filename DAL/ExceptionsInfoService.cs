@@ -16,7 +16,7 @@ namespace DAL
             return list;
         }
 
-        public static List<ExceptionsInfo> GetValue(string sql)
+        private static List<ExceptionsInfo> GetValue(string sql)
         {
             List<ExceptionsInfo> list = new List<ExceptionsInfo>();
             OleDbDataReader odr = DBHelper.GetReader(sql);
@@ -50,6 +50,19 @@ namespace DAL
             string sql = "select top 10 * from (select top " + num * 10 + " * from exceptionsinfo where " + whereStr + " order by id desc ) order by id asc";
             List<ExceptionsInfo> list = GetValue(sql);
             return list;
+        }
+
+        public static int returnCount(string whereStr)
+        {
+            int count=0;
+            string sql = "select count (*) as counts from exceptionsinfo where " + whereStr;
+            OleDbDataReader odr = DBHelper.GetReader(sql);
+            while (odr.Read())
+            {
+                count =Convert.ToInt32( odr["counts"]);
+            }
+            odr.Close();
+            return count;
         }
     }
 }

@@ -86,6 +86,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="common\common.cs" />
+    <Compile Include="Component\pages.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Component\turnPaper.cs">
       <SubType>UserControl</SubType>
     </Compile>
