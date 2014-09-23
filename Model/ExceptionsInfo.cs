@@ -16,5 +16,6 @@ namespace Model
         public string ExcepitionDescri { get; set; }
         public string Solution { get; set; }
         public string Remarks { get; set; }
+        public string ProjectName { get; set; }
     }
 }

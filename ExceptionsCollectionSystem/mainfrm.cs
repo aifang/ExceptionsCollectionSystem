@@ -316,7 +316,7 @@ namespace ExceptionsCollectionSystem
             {
                 ListViewItem lvi = new ListViewItem(ex.ID.ToString());
                 lvi.SubItems.Add(ex.UserID);
-                lvi.SubItems.Add(ex.ProjectID.ToString());
+                lvi.SubItems.Add(ex.ProjectName.ToString());
                 lvi.SubItems.Add(ex.TypeID.ToString());
                 lvi.SubItems.Add(ex.ExcepitionID);
                 lvi.SubItems.Add(ex.ExcepitionName);

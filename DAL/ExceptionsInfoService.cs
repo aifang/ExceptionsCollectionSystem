@@ -10,7 +10,6 @@ namespace DAL
     {
         public static List<ExceptionsInfo> FindAll(string whereStr)
         {
-            //string sql = "select * from exceptionsInfo where "+whereStr;
             string sql = "select * from exceptionsInfo " + whereStr;
             List<ExceptionsInfo> list = GetValue(sql);
             return list;
@@ -38,6 +37,7 @@ namespace DAL
             return list;
         }
 
+
         public static List<ExceptionsInfo> FindAll()
         {
             string sql = "select * from exceptionsInfo ";
@@ -45,9 +45,16 @@ namespace DAL
             return list;
         }
 
-        public static List<ExceptionsInfo> findTop10(int num,string whereStr)
+        public static List<ExceptionsInfo> findTop(int num,int pageSize ,string whereStr)
         {
-            string sql = "select top 10 * from (select top " + num * 10 + " * from exceptionsinfo where " + whereStr + " order by id desc ) order by id asc";
+            string sql = string.Format("select top {2} * from exceptionsinfo where {1} and id not in (select top {0} id from  exceptionsinfo where {1} order by id)  order by id", pageSize * (num - 1), whereStr,pageSize);
+            List<ExceptionsInfo> list = GetValue(sql);
+            return list;
+        }
+
+        public static List<ExceptionsInfo> findFirstPage(int pageSize, string whereStr)
+        {
+            string sql = string.Format("select top {0} * from  exceptionsinfo where {1} order by id", pageSize, whereStr);
             List<ExceptionsInfo> list = GetValue(sql);
             return list;
         }

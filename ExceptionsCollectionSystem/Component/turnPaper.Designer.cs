@@ -32,11 +32,11 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnFirstPage = new System.Windows.Forms.ToolStripButton();
             this.btnBackPage = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.btn1 = new System.Windows.Forms.ToolStripButton();
+            this.btn2 = new System.Windows.Forms.ToolStripButton();
+            this.btn3 = new System.Windows.Forms.ToolStripButton();
+            this.btn4 = new System.Windows.Forms.ToolStripButton();
+            this.btn5 = new System.Windows.Forms.ToolStripButton();
             this.btnFwdPage = new System.Windows.Forms.ToolStripButton();
             this.btnEndPage = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -46,8 +46,8 @@
             this.btnGo = new System.Windows.Forms.ToolStripButton();
             this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSeparator();
             this.lblTotalPage = new System.Windows.Forms.ToolStripLabel();
-            this.lblCount = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.lblCount = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,11 +56,11 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnFirstPage,
             this.btnBackPage,
-            this.toolStripButton5,
-            this.toolStripButton9,
-            this.toolStripButton8,
-            this.toolStripButton7,
-            this.toolStripButton6,
+            this.btn1,
+            this.btn2,
+            this.btn3,
+            this.btn4,
+            this.btn5,
             this.btnFwdPage,
             this.btnEndPage,
             this.toolStripSeparator2,
@@ -98,50 +98,55 @@
             this.btnBackPage.Text = "上一页";
             this.btnBackPage.Click += new System.EventHandler(this.btnBackPage_Click);
             // 
-            // toolStripButton5
+            // btn1
             // 
-            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton5.Text = "1";
+            this.btn1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btn1.Image = ((System.Drawing.Image)(resources.GetObject("btn1.Image")));
+            this.btn1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn1.Name = "btn1";
+            this.btn1.Size = new System.Drawing.Size(23, 22);
+            this.btn1.Text = "1";
+            this.btn1.Click += new System.EventHandler(this.btn1_Click);
             // 
-            // toolStripButton9
+            // btn2
             // 
-            this.toolStripButton9.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton9.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton9.Image")));
-            this.toolStripButton9.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton9.Name = "toolStripButton9";
-            this.toolStripButton9.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton9.Text = "2";
+            this.btn2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btn2.Image = ((System.Drawing.Image)(resources.GetObject("btn2.Image")));
+            this.btn2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn2.Name = "btn2";
+            this.btn2.Size = new System.Drawing.Size(23, 22);
+            this.btn2.Text = "2";
+            this.btn2.Click += new System.EventHandler(this.btn2_Click);
             // 
-            // toolStripButton8
+            // btn3
             // 
-            this.toolStripButton8.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton8.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton8.Image")));
-            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton8.Name = "toolStripButton8";
-            this.toolStripButton8.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton8.Text = "3";
+            this.btn3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btn3.Image = ((System.Drawing.Image)(resources.GetObject("btn3.Image")));
+            this.btn3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn3.Name = "btn3";
+            this.btn3.Size = new System.Drawing.Size(23, 22);
+            this.btn3.Text = "3";
+            this.btn3.Click += new System.EventHandler(this.btn3_Click);
             // 
-            // toolStripButton7
+            // btn4
             // 
-            this.toolStripButton7.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
-            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton7.Text = "4";
+            this.btn4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btn4.Image = ((System.Drawing.Image)(resources.GetObject("btn4.Image")));
+            this.btn4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn4.Name = "btn4";
+            this.btn4.Size = new System.Drawing.Size(23, 22);
+            this.btn4.Text = "4";
+            this.btn4.Click += new System.EventHandler(this.btn4_Click);
             // 
-            // toolStripButton6
+            // btn5
             // 
-            this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton6.Text = "5";
+            this.btn5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btn5.Image = ((System.Drawing.Image)(resources.GetObject("btn5.Image")));
+            this.btn5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn5.Name = "btn5";
+            this.btn5.Size = new System.Drawing.Size(23, 22);
+            this.btn5.Text = "5";
+            this.btn5.Click += new System.EventHandler(this.btn5_Click);
             // 
             // btnFwdPage
             // 
@@ -178,6 +183,7 @@
             // 
             this.txtCurPage.Name = "txtCurPage";
             this.txtCurPage.Size = new System.Drawing.Size(25, 25);
+            this.txtCurPage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCurPage_KeyDown);
             // 
             // toolStripLabel2
             // 
@@ -207,16 +213,16 @@
             this.lblTotalPage.Size = new System.Drawing.Size(54, 22);
             this.lblTotalPage.Text = "共 50 页";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
             // lblCount
             // 
             this.lblCount.Name = "lblCount";
             this.lblCount.Size = new System.Drawing.Size(84, 17);
             this.lblCount.Text = "共1234条记录";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // turnPaper
             // 
@@ -237,11 +243,11 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton btnFirstPage;
         private System.Windows.Forms.ToolStripButton btnBackPage;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
-        private System.Windows.Forms.ToolStripButton toolStripButton9;
-        private System.Windows.Forms.ToolStripButton toolStripButton8;
-        private System.Windows.Forms.ToolStripButton toolStripButton7;
-        private System.Windows.Forms.ToolStripButton toolStripButton6;
+        private System.Windows.Forms.ToolStripButton btn1;
+        private System.Windows.Forms.ToolStripButton btn2;
+        private System.Windows.Forms.ToolStripButton btn3;
+        private System.Windows.Forms.ToolStripButton btn4;
+        private System.Windows.Forms.ToolStripButton btn5;
         private System.Windows.Forms.ToolStripButton btnFwdPage;
         private System.Windows.Forms.ToolStripButton btnEndPage;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;

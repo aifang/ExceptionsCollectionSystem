@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mapShow));
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
-            this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
             this.pnlTitle = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbo = new System.Windows.Forms.ComboBox();
@@ -38,10 +37,6 @@
             this.txtKeywork = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnResultArr = new System.Windows.Forms.Button();
-            this.pnlMap = new System.Windows.Forms.Panel();
-            this.picShowresult = new System.Windows.Forms.PictureBox();
-            this.pnlResult = new System.Windows.Forms.Panel();
-            this.pnlTurnPage = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -50,15 +45,20 @@
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
+            this.pnlMap = new System.Windows.Forms.Panel();
+            this.picShowresult = new System.Windows.Forms.PictureBox();
+            this.pnlResult = new System.Windows.Forms.Panel();
+            this.pnlTurnPage = new System.Windows.Forms.Panel();
+            this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
             this.turnPaper1 = new ExceptionsCollectionSystem.Component.turnPaper();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).BeginInit();
             this.pnlTitle.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.pnlMap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picShowresult)).BeginInit();
             this.pnlResult.SuspendLayout();
             this.pnlTurnPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).BeginInit();
             this.SuspendLayout();
             // 
             // axLicenseControl1
@@ -69,15 +69,6 @@
             this.axLicenseControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axLicenseControl1.OcxState")));
             this.axLicenseControl1.Size = new System.Drawing.Size(32, 32);
             this.axLicenseControl1.TabIndex = 8;
-            // 
-            // axMapControl1
-            // 
-            this.axMapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.axMapControl1.Location = new System.Drawing.Point(0, 0);
-            this.axMapControl1.Name = "axMapControl1";
-            this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
-            this.axMapControl1.Size = new System.Drawing.Size(739, 416);
-            this.axMapControl1.TabIndex = 9;
             // 
             // pnlTitle
             // 
@@ -181,48 +172,6 @@
             this.btnResultArr.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnResultArr.UseVisualStyleBackColor = true;
             this.btnResultArr.Click += new System.EventHandler(this.btnResultArr_Click);
-            // 
-            // pnlMap
-            // 
-            this.pnlMap.Controls.Add(this.picShowresult);
-            this.pnlMap.Controls.Add(this.axMapControl1);
-            this.pnlMap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlMap.Location = new System.Drawing.Point(225, 41);
-            this.pnlMap.Name = "pnlMap";
-            this.pnlMap.Size = new System.Drawing.Size(739, 416);
-            this.pnlMap.TabIndex = 13;
-            // 
-            // picShowresult
-            // 
-            this.picShowresult.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.picShowresult.Image = ((System.Drawing.Image)(resources.GetObject("picShowresult.Image")));
-            this.picShowresult.Location = new System.Drawing.Point(1, 164);
-            this.picShowresult.Name = "picShowresult";
-            this.picShowresult.Size = new System.Drawing.Size(14, 46);
-            this.picShowresult.TabIndex = 12;
-            this.picShowresult.TabStop = false;
-            this.picShowresult.Click += new System.EventHandler(this.picShowresult_Click);
-            // 
-            // pnlResult
-            // 
-            this.pnlResult.Controls.Add(this.flowLayoutPanel1);
-            this.pnlResult.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pnlResult.Location = new System.Drawing.Point(0, 41);
-            this.pnlResult.Margin = new System.Windows.Forms.Padding(0);
-            this.pnlResult.Name = "pnlResult";
-            this.pnlResult.Size = new System.Drawing.Size(225, 416);
-            this.pnlResult.TabIndex = 13;
-            // 
-            // pnlTurnPage
-            // 
-            this.pnlTurnPage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlTurnPage.Controls.Add(this.turnPaper1);
-            this.pnlTurnPage.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlTurnPage.Location = new System.Drawing.Point(0, 457);
-            this.pnlTurnPage.Margin = new System.Windows.Forms.Padding(0);
-            this.pnlTurnPage.Name = "pnlTurnPage";
-            this.pnlTurnPage.Size = new System.Drawing.Size(964, 28);
-            this.pnlTurnPage.TabIndex = 15;
             // 
             // button1
             // 
@@ -336,6 +285,58 @@
             this.button8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button8.UseVisualStyleBackColor = true;
             // 
+            // pnlMap
+            // 
+            this.pnlMap.Controls.Add(this.picShowresult);
+            this.pnlMap.Controls.Add(this.axMapControl1);
+            this.pnlMap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlMap.Location = new System.Drawing.Point(225, 41);
+            this.pnlMap.Name = "pnlMap";
+            this.pnlMap.Size = new System.Drawing.Size(739, 416);
+            this.pnlMap.TabIndex = 13;
+            // 
+            // picShowresult
+            // 
+            this.picShowresult.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.picShowresult.Image = ((System.Drawing.Image)(resources.GetObject("picShowresult.Image")));
+            this.picShowresult.Location = new System.Drawing.Point(1, 164);
+            this.picShowresult.Name = "picShowresult";
+            this.picShowresult.Size = new System.Drawing.Size(14, 46);
+            this.picShowresult.TabIndex = 12;
+            this.picShowresult.TabStop = false;
+            this.picShowresult.Click += new System.EventHandler(this.picShowresult_Click);
+            // 
+            // pnlResult
+            // 
+            this.pnlResult.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.pnlResult.Controls.Add(this.flowLayoutPanel1);
+            this.pnlResult.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pnlResult.Location = new System.Drawing.Point(0, 41);
+            this.pnlResult.Margin = new System.Windows.Forms.Padding(0);
+            this.pnlResult.Name = "pnlResult";
+            this.pnlResult.Size = new System.Drawing.Size(225, 416);
+            this.pnlResult.TabIndex = 13;
+            // 
+            // pnlTurnPage
+            // 
+            this.pnlTurnPage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlTurnPage.Controls.Add(this.turnPaper1);
+            this.pnlTurnPage.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlTurnPage.Location = new System.Drawing.Point(0, 457);
+            this.pnlTurnPage.Margin = new System.Windows.Forms.Padding(0);
+            this.pnlTurnPage.Name = "pnlTurnPage";
+            this.pnlTurnPage.Size = new System.Drawing.Size(964, 28);
+            this.pnlTurnPage.TabIndex = 15;
+            // 
+            // axMapControl1
+            // 
+            this.axMapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.axMapControl1.Location = new System.Drawing.Point(0, 0);
+            this.axMapControl1.Name = "axMapControl1";
+            this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
+            this.axMapControl1.Size = new System.Drawing.Size(739, 416);
+            this.axMapControl1.TabIndex = 9;
+            // 
             // turnPaper1
             // 
             this.turnPaper1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -356,8 +357,8 @@
             this.Controls.Add(this.pnlTurnPage);
             this.Name = "mapShow";
             this.Text = "地图查询";
+            this.Load += new System.EventHandler(this.mapShow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
             this.pnlTitle.ResumeLayout(false);
             this.pnlTitle.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
@@ -365,6 +366,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.picShowresult)).EndInit();
             this.pnlResult.ResumeLayout(false);
             this.pnlTurnPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -60,3 +60,4 @@ D:\MyProgram\GitHub\ExceptionsCollectionSystem\ExceptionsCollectionSystem\obj\x8
 D:\MyProgram\GitHub\ExceptionsCollectionSystem\ExceptionsCollectionSystem\obj\x86\Debug\ExceptionsCollectionSystem.csproj.GenerateResource.Cache
 D:\MyProgram\GitHub\ExceptionsCollectionSystem\ExceptionsCollectionSystem\bin\Debug\ExceptionsCollectionSystem.exe.config
 D:\MyProgram\GitHub\ExceptionsCollectionSystem\ExceptionsCollectionSystem\obj\x86\Debug\ExceptionsCollectionSystem.Component.turnPaper.resources
+D:\MyProgram\GitHub\ExceptionsCollectionSystem\ExceptionsCollectionSystem\bin\Debug\myDLL.pdb

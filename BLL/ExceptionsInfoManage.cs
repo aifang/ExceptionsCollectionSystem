@@ -15,9 +15,15 @@ namespace BLL
             return getOriginalInfo(list);
         }
 
-        public static List<ExceptionsInfo> findTop10(int num,string whereStr)
+        public static List<ExceptionsInfo> findTop(int num,int pageSize, string whereStr)
         {
-            List<ExceptionsInfo> list = ExceptionsInfoService.findTop10(num,whereStr);
+            List<ExceptionsInfo> list = ExceptionsInfoService.findTop(num, pageSize, whereStr);
+            return getOriginalInfo(list);
+        }
+
+        public static List<ExceptionsInfo> findFirstPage(int pageSize, string whereStr)
+        {
+            List<ExceptionsInfo> list =ExceptionsInfoService.findFirstPage( pageSize,  whereStr);
             return getOriginalInfo(list);
         }
 
@@ -29,7 +35,7 @@ namespace BLL
                 string projectName = ProjectInfoManage.FindByID(e.ProjectID);
                 string TypeName = ExceptionsTypeManage.FindByID(e.TypeID);
                 e.UserID = userName;
-                e.ProjectID = projectName;
+                e.ProjectName = projectName;
                 e.TypeID = TypeName;
             }
             return list;

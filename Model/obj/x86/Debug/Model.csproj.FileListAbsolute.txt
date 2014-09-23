@@ -10,3 +10,9 @@ D:\MyProgram\ExceptionsCollectionSystem\Model\bin\Debug\Model.pdb
 D:\MyProgram\ExceptionsCollectionSystem\Model\obj\x86\Debug\Model.csprojResolveAssemblyReference.cache
 D:\MyProgram\ExceptionsCollectionSystem\Model\obj\x86\Debug\Model.dll
 D:\MyProgram\ExceptionsCollectionSystem\Model\obj\x86\Debug\Model.pdb
+D:\MyProgram\GitHub\ExceptionsCollectionSystem\Model\bin\Debug\Model.dll.config
+D:\MyProgram\GitHub\ExceptionsCollectionSystem\Model\bin\Debug\Model.dll
+D:\MyProgram\GitHub\ExceptionsCollectionSystem\Model\bin\Debug\Model.pdb
+D:\MyProgram\GitHub\ExceptionsCollectionSystem\Model\obj\x86\Debug\Model.csprojResolveAssemblyReference.cache
+D:\MyProgram\GitHub\ExceptionsCollectionSystem\Model\obj\x86\Debug\Model.dll
+D:\MyProgram\GitHub\ExceptionsCollectionSystem\Model\obj\x86\Debug\Model.pdb
