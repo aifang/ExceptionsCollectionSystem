@@ -49,6 +49,7 @@
             this.picShowresult = new System.Windows.Forms.PictureBox();
             this.pnlResult = new System.Windows.Forms.Panel();
             this.pnlTurnPage = new System.Windows.Forms.Panel();
+            this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
             this.turnPaper1 = new ExceptionsCollectionSystem.Component.turnPaper();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
@@ -58,6 +59,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.picShowresult)).BeginInit();
             this.pnlResult.SuspendLayout();
             this.pnlTurnPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -287,6 +289,7 @@
             // 
             // pnlMap
             // 
+            this.pnlMap.Controls.Add(this.axToolbarControl1);
             this.pnlMap.Controls.Add(this.picShowresult);
             this.pnlMap.Controls.Add(this.axMapControl1);
             this.pnlMap.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -328,6 +331,15 @@
             this.pnlTurnPage.Size = new System.Drawing.Size(964, 28);
             this.pnlTurnPage.TabIndex = 15;
             // 
+            // axToolbarControl1
+            // 
+            this.axToolbarControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.axToolbarControl1.Location = new System.Drawing.Point(582, 3);
+            this.axToolbarControl1.Name = "axToolbarControl1";
+            this.axToolbarControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axToolbarControl1.OcxState")));
+            this.axToolbarControl1.Size = new System.Drawing.Size(154, 28);
+            this.axToolbarControl1.TabIndex = 13;
+            // 
             // axMapControl1
             // 
             this.axMapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -366,6 +378,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.picShowresult)).EndInit();
             this.pnlResult.ResumeLayout(false);
             this.pnlTurnPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
             this.ResumeLayout(false);
 
@@ -395,5 +408,6 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button8;
+        private ESRI.ArcGIS.Controls.AxToolbarControl axToolbarControl1;
     }
 }

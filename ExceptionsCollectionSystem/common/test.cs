@@ -66,5 +66,54 @@ namespace ExceptionsCollectionSystem.common
             }
         }
         #endregion
+
+        #region
+        ///<summary>Flash geometry on the display. The geometry type could be polygon, polyline, point, or multipoint.</summary>
+        ///
+        ///<param name="geometry"> An IGeometry interface</param>
+        ///<param name="color">An IRgbColor interface</param>
+        ///<param name="display">An IDisplay interface</param>
+        ///<param name="delay">A System.Int32 that is the time im milliseconds to wait.</param>
+        /// 
+        ///<remarks></remarks>
+        public void FlashGeometry(ESRI.ArcGIS.Geometry.IGeometry geometry, ESRI.ArcGIS.Display.IRgbColor color, ESRI.ArcGIS.Display.IDisplay display, System.Int32 delay)
+        {
+            if (geometry == null || color == null || display == null)
+            {
+                return;
+            }
+
+            display.StartDrawing(display.hDC, (System.Int16)ESRI.ArcGIS.Display.esriScreenCache.esriNoScreenCache); // Explicit Cast
+
+
+            switch (geometry.GeometryType)
+            {
+                
+
+                case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPoint:
+                    {
+                        //Set the flash geometry's symbol.
+                        ESRI.ArcGIS.Display.ISimpleMarkerSymbol simpleMarkerSymbol = new ESRI.ArcGIS.Display.SimpleMarkerSymbol();
+                        simpleMarkerSymbol.Style = ESRI.ArcGIS.Display.esriSimpleMarkerStyle.esriSMSCircle;
+                        simpleMarkerSymbol.Size = 12;
+                        simpleMarkerSymbol.Color = color;
+                        ESRI.ArcGIS.Display.ISymbol symbol = simpleMarkerSymbol as ESRI.ArcGIS.Display.ISymbol; // Dynamic Cast
+                        symbol.ROP2 = ESRI.ArcGIS.Display.esriRasterOpCode.esriROPNotXOrPen;
+
+                        //Flash the input point geometry.
+                        display.SetSymbol(symbol);
+                        display.DrawPoint(geometry);
+                        System.Threading.Thread.Sleep(delay);
+                        display.DrawPoint(geometry);
+                        break;
+                    }
+
+                
+            }
+            display.FinishDrawing();
+        }
+
+        #endregion
+
     }
 }

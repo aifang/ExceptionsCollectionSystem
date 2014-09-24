@@ -16,6 +16,7 @@ using myDLL;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Display;
+using ESRI.ArcGIS.Geometry;
 
 namespace ExceptionsCollectionSystem
 {
@@ -33,6 +34,7 @@ namespace ExceptionsCollectionSystem
         int count = 0;
         int _pageSize = 10;
         int _pageIndex = 0;
+        
         List<Button> listbtn = new List<Button>();
 
 
@@ -53,7 +55,6 @@ namespace ExceptionsCollectionSystem
                 }
                 axMapControl1.Extent = axMapControl1.FullExtent;
             }
-
         }
 
         private void picShowresult_Click(object sender, EventArgs e)
@@ -258,23 +259,29 @@ namespace ExceptionsCollectionSystem
             
             pnlResultDorkSetting();
         }
+
+
         /// <summary>
         /// 添加结果到列表框里面
         /// </summary>
         /// <param name="list">完整的异常信息list</param>
         private void AddResult(List<ExceptionsInfo> list)
         {
+            IGraphicsContainer pGContainer = axMapControl1.Map as IGraphicsContainer;
+            pGContainer.DeleteAllElements();
+
             if (list.Count != 0)
             {
                 foreach(ExceptionsInfo n in list)
                 {
                     Button btn = createNewButton(n);
                     flowLayoutPanel1.Controls.Add(btn);
+                    drawElement(n);
                 }
-                
             }
             
             pnlResultDorkSetting();
+            axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
         }
 
 
@@ -308,6 +315,8 @@ namespace ExceptionsCollectionSystem
             btn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             btn.UseVisualStyleBackColor = true;
             btn.Click += new System.EventHandler(this.btnResultArr_Click);
+            btn.MouseEnter += new System.EventHandler(changeElementStyle);
+            btn.MouseLeave += new System.EventHandler(rollBackElementColor);
             return btn;
         }
 
@@ -320,7 +329,7 @@ namespace ExceptionsCollectionSystem
         /// <param name="b">blue</param>
         /// <param name="t">透明度 0为透明</param>
         /// <returns></returns>
-        private IRgbColor setColor(int r, int g, int b, int t)
+        private IRgbColor setRGBColor(int r, int g, int b, int t)
         {
 
             IRgbColor pColor = new RgbColor();
@@ -336,7 +345,7 @@ namespace ExceptionsCollectionSystem
         /// </summary>
         /// <param name="rgbColor">颜色</param>
         /// <param name="OutLineColor">轮廓颜色</param>
-        private IElement setElement(IRgbColor rgbColor, IRgbColor OutLineColor)
+        private IElement createElement(IRgbColor rgbColor, IRgbColor OutLineColor)
         {
             ISimpleMarkerSymbol pSimpleMarkerSymbol = new SimpleMarkerSymbol();
             pSimpleMarkerSymbol.Color = rgbColor;
@@ -347,17 +356,104 @@ namespace ExceptionsCollectionSystem
             IMarkerElement pMElement = new MarkerElement() as IMarkerElement;
             pMElement.Symbol = pSimpleMarkerSymbol;
             IElement ele = (IElement)pMElement;
-            return ele;
-            //IStackedChartSymbol pSymbol = new StackedChartSymbol() as IStackedChartSymbol;
-            //pSymbol.UseOutline = false;
-            //pSymbol.Width = 10;
-            //pSymbol.
+            return ele; 
 
         }
 
-        private void drawElement()
+
+        /// <summary>
+        /// 在屏幕中添加标记元素
+        /// </summary>
+        /// <param name="n"></param>
+        private void drawElement(ExceptionsInfo n)
         {
-            
+            IFeature pFeature;
+            IQueryFilter pQFilter = new QueryFilter();
+            pQFilter.WhereClause = "\"projectName\"='" + n.ProjectID+"'";
+            IFeatureLayer pFlayer = LayerHelper.getFeatureLayerFromMap(axMapControl1.Map, "Cities");    //获取特定图层
+            IFeatureCursor pFtCursor =pFlayer.Search(pQFilter, true);                                   //查找对应结果
+
+            IRgbColor pColor1 = setRGBColor(255, 0, 0, 255);
+            IRgbColor pColor2 = setRGBColor(0, 255, 0, 255);
+            IElement ele = createElement(pColor1, pColor2);
+            IElementProperties pEleProperties = (IElementProperties)ele;
+            pEleProperties.Name = n.ProjectID;                                                //设置element的Name属性方便查找
+            IGraphicsContainer pGContainer = axMapControl1.Map as IGraphicsContainer;
+            IActiveView pView = pGContainer as IActiveView;
+
+            while ((pFeature = pFtCursor.NextFeature()) != null)
+            {
+                
+                IPoint pPoint = pFeature.Shape as IPoint;
+                ele.Geometry = pPoint;
+                pGContainer.AddElement(ele, 0);
+            }
+        }
+
+
+        /// <summary>
+        /// 查询地图上已添加的元素并选择
+        /// </summary>
+        /// <param name="elementName"></param>
+        private IElement queryElement(string elementName)
+        {
+            IElement ele =null;
+            IElementProperties pEleProperties;
+            IGraphicsContainer pGContainer = axMapControl1.Map as IGraphicsContainer;
+            //IGraphicsContainerSelect pGCSelect = pGContainer as IGraphicsContainerSelect;
+            pGContainer.Reset();
+            //pGCSelect.UnselectAllElements();
+            while ((pEleProperties = pGContainer.Next() as IElementProperties) != null)
+            {
+                if (pEleProperties.Name == elementName)
+                {
+                    ele = (IElement)pEleProperties;
+                    //pGCSelect.SelectElement(ele);
+                    break;
+                }
+            }
+            return ele;
+        }
+
+        /// <summary>
+        /// 作为MouseEnter事件的响应方法
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void changeElementStyle(object sender, System.EventArgs e)
+        {
+            IGraphicsContainer pGContainer = axMapControl1.Map as IGraphicsContainer;
+            string projectIDstr = ((Button)sender).Tag.ToString();
+            IElement pEle = queryElement(projectIDstr);
+            IMarkerElement pMarEle = pEle as IMarkerElement;
+            ISimpleMarkerSymbol pMarSymbol = pMarEle.Symbol as ISimpleMarkerSymbol;
+            //axMapControl1.FlashShape(pEle.Geometry, 1, 300, pMarEle.Symbol);          //element闪烁，symbol没有则闪烁Geometry
+            pMarSymbol.Size *= 1.5;
+            pMarSymbol.Color = setRGBColor(0, 0, 200, 255);
+            //pEle = pMarEle as IElement;
+            //pGContainer.UpdateElement(pEle);
+
+            IGeometry geometry = pEle.Geometry;
+            (geometry as ITransform2D).Move(2, 2);
+            pEle.Geometry = geometry;
+            pGContainer.UpdateElement(pEle);
+        }
+
+
+        /// <summary>
+        /// 作为MouseLeave事件的响应方法
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void rollBackElementColor(object sender, System.EventArgs e)
+        {
+            //IGraphicsContainerSelect pGCSelect = axMapControl1.Map as IGraphicsContainerSelect;
+            //pGCSelect.UnselectAllElements();
+        }
+
+        private void selectElementByMap()
+        {
+
         }
 
         #endregion 
