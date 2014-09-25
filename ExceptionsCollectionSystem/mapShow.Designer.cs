@@ -49,6 +49,7 @@
             this.picShowresult = new System.Windows.Forms.PictureBox();
             this.pnlResult = new System.Windows.Forms.Panel();
             this.pnlTurnPage = new System.Windows.Forms.Panel();
+            this.lblCoordinate = new System.Windows.Forms.Label();
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
             this.turnPaper1 = new ExceptionsCollectionSystem.Component.turnPaper();
@@ -323,6 +324,7 @@
             // pnlTurnPage
             // 
             this.pnlTurnPage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlTurnPage.Controls.Add(this.lblCoordinate);
             this.pnlTurnPage.Controls.Add(this.turnPaper1);
             this.pnlTurnPage.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlTurnPage.Location = new System.Drawing.Point(0, 457);
@@ -330,6 +332,16 @@
             this.pnlTurnPage.Name = "pnlTurnPage";
             this.pnlTurnPage.Size = new System.Drawing.Size(964, 28);
             this.pnlTurnPage.TabIndex = 15;
+            // 
+            // lblCoordinate
+            // 
+            this.lblCoordinate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCoordinate.AutoSize = true;
+            this.lblCoordinate.Location = new System.Drawing.Point(604, 7);
+            this.lblCoordinate.Name = "lblCoordinate";
+            this.lblCoordinate.Size = new System.Drawing.Size(119, 12);
+            this.lblCoordinate.TabIndex = 1;
+            this.lblCoordinate.Text = "label21111111111111";
             // 
             // axToolbarControl1
             // 
@@ -348,6 +360,8 @@
             this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
             this.axMapControl1.Size = new System.Drawing.Size(739, 416);
             this.axMapControl1.TabIndex = 9;
+            this.axMapControl1.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl1_OnMouseDown);
+            this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
             // 
             // turnPaper1
             // 
@@ -378,6 +392,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.picShowresult)).EndInit();
             this.pnlResult.ResumeLayout(false);
             this.pnlTurnPage.ResumeLayout(false);
+            this.pnlTurnPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
             this.ResumeLayout(false);
@@ -409,5 +424,6 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button8;
         private ESRI.ArcGIS.Controls.AxToolbarControl axToolbarControl1;
+        private System.Windows.Forms.Label lblCoordinate;
     }
 }
