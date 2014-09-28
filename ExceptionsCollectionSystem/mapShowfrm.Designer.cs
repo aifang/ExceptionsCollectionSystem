@@ -1,6 +1,6 @@
 ﻿namespace ExceptionsCollectionSystem
 {
-    partial class mapShow
+    partial class mapShowfrm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mapShow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mapShowfrm));
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.pnlTitle = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
@@ -46,22 +46,22 @@
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.pnlMap = new System.Windows.Forms.Panel();
+            this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
             this.picShowresult = new System.Windows.Forms.PictureBox();
+            this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
             this.pnlResult = new System.Windows.Forms.Panel();
             this.pnlTurnPage = new System.Windows.Forms.Panel();
             this.lblCoordinate = new System.Windows.Forms.Label();
-            this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
-            this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
             this.turnPaper1 = new ExceptionsCollectionSystem.Component.turnPaper();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
             this.pnlTitle.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.pnlMap.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picShowresult)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).BeginInit();
             this.pnlResult.SuspendLayout();
             this.pnlTurnPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).BeginInit();
             this.SuspendLayout();
             // 
             // axLicenseControl1
@@ -141,6 +141,7 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoScroll = true;
+            this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(255, 169, 219, 246);
             this.flowLayoutPanel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.flowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.flowLayoutPanel1.Controls.Add(this.btnResultArr);
@@ -206,6 +207,7 @@
             // 
             // button3
             // 
+            this.button3.BackColor = System.Drawing.SystemColors.Highlight;
             this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button3.FlatAppearance.BorderSize = 0;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -220,6 +222,7 @@
             // 
             // button4
             // 
+            this.button4.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button4.FlatAppearance.BorderSize = 0;
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -230,10 +233,11 @@
             this.button4.TabIndex = 8;
             this.button4.Text = "ID：12，xxx异常名称\r\n标签：XXX项目，XX用户\r\n异常信息：TLW-11-1，地图异常类型\r\n问题描述：xxxxxxxxxxxxxxx";
             this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button4.UseVisualStyleBackColor = true;
+            this.button4.UseVisualStyleBackColor = false;
             // 
             // button5
             // 
+            this.button5.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button5.FlatAppearance.BorderSize = 0;
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -299,6 +303,15 @@
             this.pnlMap.Size = new System.Drawing.Size(739, 416);
             this.pnlMap.TabIndex = 13;
             // 
+            // axToolbarControl1
+            // 
+            this.axToolbarControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.axToolbarControl1.Location = new System.Drawing.Point(582, 3);
+            this.axToolbarControl1.Name = "axToolbarControl1";
+            this.axToolbarControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axToolbarControl1.OcxState")));
+            this.axToolbarControl1.Size = new System.Drawing.Size(154, 28);
+            this.axToolbarControl1.TabIndex = 13;
+            // 
             // picShowresult
             // 
             this.picShowresult.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -309,6 +322,17 @@
             this.picShowresult.TabIndex = 12;
             this.picShowresult.TabStop = false;
             this.picShowresult.Click += new System.EventHandler(this.picShowresult_Click);
+            // 
+            // axMapControl1
+            // 
+            this.axMapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.axMapControl1.Location = new System.Drawing.Point(0, 0);
+            this.axMapControl1.Name = "axMapControl1";
+            this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
+            this.axMapControl1.Size = new System.Drawing.Size(739, 416);
+            this.axMapControl1.TabIndex = 9;
+            this.axMapControl1.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl1_OnMouseDown);
+            this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
             // 
             // pnlResult
             // 
@@ -343,26 +367,6 @@
             this.lblCoordinate.TabIndex = 1;
             this.lblCoordinate.Text = "label21111111111111";
             // 
-            // axToolbarControl1
-            // 
-            this.axToolbarControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.axToolbarControl1.Location = new System.Drawing.Point(582, 3);
-            this.axToolbarControl1.Name = "axToolbarControl1";
-            this.axToolbarControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axToolbarControl1.OcxState")));
-            this.axToolbarControl1.Size = new System.Drawing.Size(154, 28);
-            this.axToolbarControl1.TabIndex = 13;
-            // 
-            // axMapControl1
-            // 
-            this.axMapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.axMapControl1.Location = new System.Drawing.Point(0, 0);
-            this.axMapControl1.Name = "axMapControl1";
-            this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
-            this.axMapControl1.Size = new System.Drawing.Size(739, 416);
-            this.axMapControl1.TabIndex = 9;
-            this.axMapControl1.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl1_OnMouseDown);
-            this.axMapControl1.OnMouseMove += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseMoveEventHandler(this.axMapControl1_OnMouseMove);
-            // 
             // turnPaper1
             // 
             this.turnPaper1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -389,12 +393,12 @@
             this.pnlTitle.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.pnlMap.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picShowresult)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
             this.pnlResult.ResumeLayout(false);
             this.pnlTurnPage.ResumeLayout(false);
             this.pnlTurnPage.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
             this.ResumeLayout(false);
 
         }

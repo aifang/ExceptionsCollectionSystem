@@ -20,26 +20,29 @@ using ESRI.ArcGIS.Geometry;
 
 namespace ExceptionsCollectionSystem
 {
-    public partial class mapShow : Form
+    public partial class mapShowfrm : Form
     {
-        public mapShow()
+        public mapShowfrm()
         {
             InitializeComponent();
+            this.WindowState = FormWindowState.Maximized; 
             turnPaper1.OnPageIndexChange += new Component.turnPaper.OnPageIndexChangeDelegate(turnPage);
         }
 
-        string tableName = null;
-        string column = null;
-        string columnID = null;
-        int count = 0;
-        int _pageSize = 10;
-        int _pageIndex = 0;
+        string _tableName = null;   //查询的表明
+        string _column = null;      //列名
+        string _columnID = null;    //通过_columnID转化成_column ,如项目名称转成项目ID
+        string _whereTemp = null;   //存储txtKeywork.Text，翻页及初始化时使用
+        int _count = 0;
+        int _pageSize = 10;         //每页数量
+        int _pageIndex = 0;         //当前页
 
-        IElement pEleTemp = null;
-        Button btnTemp = null;
-        
-        List<Button> listbtn = new List<Button>();
+        IElement _pEleTemp = null;                              //储存最近一次鼠标在地图上滑动时查找到的元素，用于判断鼠标是否在元素范围内
+        List<Button> _ListbtnTemp = new List<Button>();         //_pEleTemp对应的结果按钮，用于btn颜色的更改设置
+        List<Button> _listbtn = new List<Button>();             //结果集
 
+        Color _blackColor = Color.FromArgb(255, 219, 222, 226);   //btn选中状态颜色
+        Color _witheColor = Color.FromArgb(255, 244, 247, 252);   //btn未选中状态颜色
 
         #region  控件事件
 
@@ -80,21 +83,25 @@ namespace ExceptionsCollectionSystem
         //查询文本框Enter事件
         private void txtKeywork_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter && txtKeywork.Text.Trim()!="")
             {
+                _whereTemp = txtKeywork.Text.Trim();
                 _pageIndex = 0;
                 DoQuery();
-                turnPaper1.setCount(count); 
-                
+                turnPaper1.setCount(_count); 
             }
         }
 
         //查询按钮
         private void btnQuery_Click(object sender, EventArgs e)
         {
-            _pageIndex = 0;
-            DoQuery();
-            turnPaper1.setCount(count);
+            if (txtKeywork.Text.Trim() != "")
+            {
+                _whereTemp = txtKeywork.Text.Trim();
+                _pageIndex = 0;
+                DoQuery();
+                turnPaper1.setCount(_count);
+            }
         }
 
         //查询类别改变事件
@@ -104,38 +111,38 @@ namespace ExceptionsCollectionSystem
             switch (cmbo.Text)
             {
                 case "ID":
-                    tableName = "exceptionsinfo";
-                    column = "id";
+                    _tableName = "exceptionsinfo";
+                    _column = "id";
                     break;
                 case "用户名":
-                    tableName = "userinfo";
-                    column = "username";
-                    columnID = "userID";
+                    _tableName = "userinfo";
+                    _column = "username";
+                    _columnID = "userID";
                     break;
                 case "项目名称":
-                    tableName = "projectinfo";
-                    column = "projectname";
-                    columnID = "projectID";
+                    _tableName = "projectinfo";
+                    _column = "projectname";
+                    _columnID = "projectID";
                     break;
                 case "异常类型":
-                    tableName = "exceptionstype";
-                    column = "typename";
-                    columnID = "typeId";
+                    _tableName = "exceptionstype";
+                    _column = "typename";
+                    _columnID = "typeId";
                     break;
                 case "异常ID":
-                    tableName = "exceptionsinfo";
-                    column = "exceptionid";
+                    _tableName = "exceptionsinfo";
+                    _column = "exceptionid";
                     txtKeywork.Text = "TLW-";
                     txtKeywork.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                     break;
                 case "异常名称":
-                    tableName = "exceptionsinfo";
-                    column = "exceptionName";
+                    _tableName = "exceptionsinfo";
+                    _column = "exceptionName";
                     break;
                 default:
                     break;
             }
-            txtKeywork.AutoCompleteCustomSource = getSuggestSource(tableName, column);
+            txtKeywork.AutoCompleteCustomSource = getSuggestSource(_tableName, _column);
         }
 
 
@@ -150,91 +157,45 @@ namespace ExceptionsCollectionSystem
         {
             lblCoordinate.Text = " 坐标: " + string.Format("{0}, {1}  {2}", e.mapX.ToString("#######.##"), e.mapY.ToString("#######.##"), axMapControl1.MapUnits.ToString().Substring(4));
             IPoint pPoint = axMapControl1.ActiveView.ScreenDisplay.DisplayTransformation.ToMapPoint(e.x, e.y);
-            IEnumElement pEunmEle = queryElementOnMap(pPoint, 0.005);
+            IEnumElement pEunmEle = queryElementOnMap(pPoint, 0);
             IElement pEle;
-            //IElement pEleTemp=null;
-            //Button btnTemp=null;
             IElementProperties pEleProperties;
-            Color black=Color.FromArgb(255, 219, 222, 226);
-            Color withe = Color.FromArgb(255, 244, 247, 252);
-            //if (pEleTemp == null)
-            //{
-            if (pEunmEle != null && pEleTemp == null)
+            IGraphicsContainer pGContainer = axMapControl1.Map as IGraphicsContainer;
+
+            if (pEunmEle != null && _pEleTemp == null)
             {
                 while ((pEle = pEunmEle.Next()) != null)
                 {
                     pEleProperties = (IElementProperties)pEle;
                     string projectID = pEleProperties.Name;
-                    Button btn = queryResultButton(projectID);
-                    if (btn.BackColor !=black )
+                    List<Button> pListBtn = queryResultButton(projectID);
+                    foreach (var item in pListBtn)
                     {
-                        btn.BackColor = black;
-                        btnTemp = btn;
-                        pEleTemp = pEle;
+                        item.BackColor = _blackColor;
+                        _ListbtnTemp.Add(item);
                     }
-
-                    //IGraphicsContainer pGContainer = axMapControl1.Map as IGraphicsContainer;
-                    //IElement pEle = queryElement(projectIDstr);
-                    //pEle = setElementStyle(size, pColor, pEle, direction);
-                    //pGContainer.UpdateElement(pEle);
-                    //axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
+                    pGContainer.UpdateElement(setElementStyle(1.5, setRGBColor(0, 0, 200, 255), pEle, true));
+                    axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
+                    _pEleTemp = pEle;
                 }
             }
-            //else if (pEunmEle != null && pEleTemp != null)
-            //{
-            //    while ((pEle = pEunmEle.Next()) != null)
-            //    {
-            //        pEleProperties = (IElementProperties)pEle;
-            //        string projectID = pEleProperties.Name;
-            //        Button btn = queryResultButton(projectID);
-            //        if (pEleTemp != pEle)
-            //        {
-            //            if (btn.BackColor != black)
-            //            {
-            //                btn.BackColor = black;
-            //            }
-
-            //            if (btnTemp.BackColor != withe)
-            //            {
-            //                btnTemp.BackColor = withe;
-            //                btnTemp = btn;
-            //                pEleTemp = pEle;
-            //            }
-            //        }
-            //    }
-            //}
-            else if (pEunmEle == null && pEleTemp != null)
+            else if (pEunmEle == null && _pEleTemp != null)
             {
-                if (btnTemp.BackColor != withe)
-                {
-                    btnTemp.BackColor = withe;
-                    btnTemp = null;
-                    pEleTemp = null;
-                }
-            }
-
                 
-            //}
-            //else
-            //{
-            //    if (pEunmEle == null)
-            //    {
-            //        if (btnTemp.BackColor != Color.FromArgb(255, 244, 247, 252))
-            //        {
-            //            btnTemp.BackColor = Color.FromArgb(255, 244, 247, 252);
-            //            btnTemp = null;
-            //            pEleTemp = null;
-            //            //btn.BackColor = Color.FromArgb(255, 244, 247, 252);
-            //        }
-            //    }
-            //}
+                foreach (var item in _ListbtnTemp)
+                {
+                    item.BackColor = _witheColor;
+                }
 
+                pGContainer.UpdateElement(setElementStyle(1.5, setRGBColor(255, 0, 0, 255), _pEleTemp, false));
+                axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
+
+                _ListbtnTemp.Clear();
+                _pEleTemp = null;
+            }
         }
 
 
-
-        
-       
         #endregion
 
 
@@ -273,34 +234,38 @@ namespace ExceptionsCollectionSystem
         private void DoQuery()
         {
             
-            count = 0;
-            listbtn.Clear();
-            if (cmbo.Text != "" && txtKeywork.Text.Trim() != "")
+            if (cmbo.Text != "" && _whereTemp != "")
             {
+                _count = 0;
+                _listbtn.Clear();
                 string whereStr = null;
                 List<ExceptionsInfo> list = null;
+
+                IGraphicsContainer pGContainer = axMapControl1.Map as IGraphicsContainer;
+                pGContainer.DeleteAllElements();
+
                 switch (cmbo.Text)
                 {
                     case "ID":
-                        whereStr = "ID like '%" + txtKeywork.Text.Trim() + "%'";
+                        whereStr = "ID like '%" + _whereTemp + "%'";
                         break;
                     case "用户名":
-                        List<int> listUserID = UserInfoManage.FindByNameArr(txtKeywork.Text.Trim());
+                        List<int> listUserID = UserInfoManage.FindByNameArr(_whereTemp);
                         queryByName(listUserID);
                         return; //完全跳出
                     case "项目名称":
-                        List<int> listProID = ProjectInfoManage.FindByNameArr(txtKeywork.Text.Trim());
+                        List<int> listProID = ProjectInfoManage.FindByNameArr(_whereTemp);
                         queryByName(listProID);
                         return;//完全跳出
                     case "异常类型":
-                        List<int> listTypeID = ExceptionsTypeManage.FindByNameArr(txtKeywork.Text.Trim());
+                        List<int> listTypeID = ExceptionsTypeManage.FindByNameArr(_whereTemp);
                         queryByName(listTypeID);
                         return;//完全跳出
                     case "异常ID":
-                        whereStr = "exceptionID like '%" + txtKeywork.Text.Trim() + "%'";
+                        whereStr = "exceptionID like '%" + _whereTemp + "%'";
                         break;
                     case "异常名称":
-                        whereStr = "exceptionName like '%" + txtKeywork.Text.Trim() + "%'";
+                        whereStr = "exceptionName like '%" + _whereTemp + "%'";
                         break;
                     default:
                         break;
@@ -318,7 +283,7 @@ namespace ExceptionsCollectionSystem
                     }
                     flowLayoutPanel1.Controls.Clear();
                     AddResult(list);
-                    count = ExceptionsInfoManage.returnCount(whereStr);
+                    _count = ExceptionsInfoManage.returnCount(whereStr);
                 }
             }
         }
@@ -331,6 +296,7 @@ namespace ExceptionsCollectionSystem
         private void turnPage(int pageIndex)
         {
             _pageIndex = pageIndex;
+
             DoQuery();
             
         }
@@ -341,11 +307,11 @@ namespace ExceptionsCollectionSystem
         /// <param name="listID"></param>
         private void queryByName(List<int> listID)
         {
-            int _count=0;
+            int count=0;
             flowLayoutPanel1.Controls.Clear();
             foreach (int ex in listID)
             {
-                string whereStr= columnID+"="+ex;
+                string whereStr= _columnID+"="+ex;
                 List<ExceptionsInfo> list;
                 if (_pageIndex > 1)
                 {
@@ -356,8 +322,8 @@ namespace ExceptionsCollectionSystem
                     list = ExceptionsInfoManage.findFirstPage(_pageSize, whereStr);
                 }
                 AddResult(list);
-                _count = ExceptionsInfoManage.returnCount(whereStr);
-                count += _count;
+                count = ExceptionsInfoManage.returnCount(whereStr);
+                _count += count;
             }
             
             pnlResultDorkSetting();
@@ -370,9 +336,6 @@ namespace ExceptionsCollectionSystem
         /// <param name="list">完整的异常信息list</param>
         private void AddResult(List<ExceptionsInfo> list)
         {
-            IGraphicsContainer pGContainer = axMapControl1.Map as IGraphicsContainer;
-            pGContainer.DeleteAllElements();
-
             if (list.Count != 0)
             {
                 foreach(ExceptionsInfo n in list)
@@ -408,6 +371,7 @@ namespace ExceptionsCollectionSystem
         private Button createNewButton(ExceptionsInfo n)
         {
             Button btn = new Button();
+            btn.BackColor = _witheColor;
             btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             btn.FlatAppearance.BorderSize = 0;
             btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -475,11 +439,10 @@ namespace ExceptionsCollectionSystem
             IQueryFilter pQFilter = new QueryFilter();
             pQFilter.WhereClause = "\"projectName\"='" + n.ProjectID+"'";
             IFeatureLayer pFlayer = LayerHelper.getFeatureLayerFromMap(axMapControl1.Map, "Cities");    //获取特定图层
-            IFeatureCursor pFtCursor =pFlayer.Search(pQFilter, true);                                   //查找对应结果
-
+            IFeatureCursor pFtCursor =pFlayer.Search(pQFilter, true);                                   //查找对应结果的要素
             IRgbColor pColor1 = setRGBColor(255, 0, 0, 255);
             IRgbColor pColor2 = setRGBColor(0, 255, 0, 255);
-            IElement ele = createElement(pColor1, pColor2);
+            IElement ele =createElement(pColor1, pColor2);
             IElementProperties pEleProperties = (IElementProperties)ele;
             pEleProperties.Name = n.ProjectID;                                                //设置element的Name属性方便查找
             IGraphicsContainer pGContainer = axMapControl1.Map as IGraphicsContainer;
@@ -487,8 +450,23 @@ namespace ExceptionsCollectionSystem
 
             while ((pFeature = pFtCursor.NextFeature()) != null)
             {
-                
                 IPoint pPoint = pFeature.Shape as IPoint;
+                IElement pEleTemp;
+                IEnumElement pEnumEle = queryElementOnMap(pPoint, 0);               
+                if (pEnumEle != null)                                           //检查地图中是否已存在此元素
+                {
+                    while ((pEleTemp = pEnumEle.Next()) != null)
+                    {
+                        IElementProperties pEleProTemp = (IElementProperties)pEleTemp;
+                        if (pEleProTemp.Name == n.ProjectID) return;
+                            //if (!pEleProTemp.Name.Contains(n.ProjectID))
+                            //{
+                            //    pEleProTemp.Name += "," + n.ProjectID;
+                            //    pGContainer.UpdateElement((IElement)pEleProTemp);
+                            //    return;
+                            //}
+                    }
+                }
                 ele.Geometry = pPoint;
                 pGContainer.AddElement(ele, 0);
             }
@@ -499,7 +477,7 @@ namespace ExceptionsCollectionSystem
         /// 查询地图上已添加的元素并选择
         /// </summary>
         /// <param name="elementName"></param>
-        private IElement queryElement(string elementName)
+        private IElement queryElementByName(string elementName)
         {
             IElement ele =null;
             IElementProperties pEleProperties;
@@ -528,7 +506,7 @@ namespace ExceptionsCollectionSystem
             IRgbColor pColor = setRGBColor(0, 0, 200, 255);
             string projectIDstr = ((Button)sender).Tag.ToString();
             IGraphicsContainer pGContainer = axMapControl1.Map as IGraphicsContainer;            
-            IElement pEle = queryElement(projectIDstr);
+            IElement pEle = queryElementByName(projectIDstr);
             pEle = setElementStyle(size, pColor, pEle, direction);
             pGContainer.UpdateElement(pEle);
             axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
@@ -547,7 +525,7 @@ namespace ExceptionsCollectionSystem
             double size = 1.5;
             IRgbColor pColor = setRGBColor(255, 0, 0, 255);            
             IGraphicsContainer pGContainer = axMapControl1.Map as IGraphicsContainer;
-            IElement pEle = queryElement(projectIDstr);
+            IElement pEle = queryElementByName(projectIDstr);
             pEle = setElementStyle(size, pColor, pEle, direction);
             pGContainer.UpdateElement(pEle);
             axMapControl1.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
@@ -598,29 +576,43 @@ namespace ExceptionsCollectionSystem
         /// </summary>
         /// <param name="projectID">element的name</param>
         /// <returns></returns>
-        private Button queryResultButton(string projectID)
+        private List<Button> queryResultButton(string projectID)
         {
+            List<Button> btnList=new List<Button>();
             Button btn = null;
             Control.ControlCollection btnCollection = flowLayoutPanel1.Controls;
             for (int i = 0; i < btnCollection.Count; i++)
             {
                 btn = (Button)btnCollection[i];
-                if (btn.Tag.ToString() == projectID)
+                if (btn.Tag.ToString()==projectID)//projectID.Contains(btn.Tag.ToString()))
                 {
-                    return btn;
+                    btnList.Add(btn);
                 }
             }
-            return null;
+            return btnList;
         }
+
+
+
 
         #endregion 
 
-       
+        #region 公有方法
 
-        
-
-        
-        
-
+        public void initializeFrm(string columnValue)
+        {
+            if (columnValue != null)
+            {
+                _whereTemp = columnValue;
+                cmbo.SelectedIndex = 4;
+                //cmbo.Text = "异常ID";
+                //_tableName = "exceptionsinfo";
+                //_column = "exceptionid";
+                txtKeywork.Text = columnValue;
+                //txtKeywork.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                //DoQuery();
+            }
+        }
+        #endregion
     }
 }

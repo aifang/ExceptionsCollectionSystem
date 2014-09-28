@@ -115,11 +115,11 @@
     <Compile Include="ExInfoFrm.Designer.cs">
       <DependentUpon>ExInfoFrm.cs</DependentUpon>
     </Compile>
-    <Compile Include="mapShow.cs">
+    <Compile Include="mapShowfrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="mapShow.Designer.cs">
-      <DependentUpon>mapShow.cs</DependentUpon>
+    <Compile Include="mapShowfrm.Designer.cs">
+      <DependentUpon>mapShowfrm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="projectfrm.cs">
@@ -156,8 +156,8 @@
     <EmbeddedResource Include="ExInfoFrm.resx">
       <DependentUpon>ExInfoFrm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="mapShow.resx">
-      <DependentUpon>mapShow.cs</DependentUpon>
+    <EmbeddedResource Include="mapShowfrm.resx">
+      <DependentUpon>mapShowfrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="projectfrm.resx">
       <DependentUpon>projectfrm.cs</DependentUpon>

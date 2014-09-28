@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+
 using DAL;
 using Model;
 using BLL;
@@ -21,15 +22,16 @@ namespace ExceptionsCollectionSystem
         }
 
         private DataDisposes dataDisposes = new DataDisposes();//全局数据库链接
-        private int id;
 
+        private int id;      //记录ID号
         public int ID_m
         {
             get { return id; }
             set { id = value; }
         }
-        //界面类型 0-用户管理，1-项目管理，2-类型管理;
-        int UIType = 0;
+
+        int UIType = 0;         //界面类型 0-用户管理，1-项目管理，2-类型管理;
+        string _exceptInfoID;   //TLW-1-1
 
         //用户管理
         private void btnUsermanager_Click(object sender, EventArgs e)
@@ -132,7 +134,10 @@ namespace ExceptionsCollectionSystem
         //异常信息地图显示
         private void tsmiExinfoMapShow_Click(object sender, EventArgs e)
         {
-
+            mapShowfrm mapshow = new mapShowfrm();
+            mapshow.ShowDialog();
+            mapshow.initializeFrm(_exceptInfoID);
+            //mapshow.ShowDialog();
         }
         //异常信息添加
         private void tsmiExinfoAdd_Click(object sender, EventArgs e)
@@ -153,7 +158,8 @@ namespace ExceptionsCollectionSystem
         //异常查询
         private void btnQueryInfo_Click(object sender, EventArgs e)
         {
-            mapShow mapshow = new mapShow();
+            mapShowfrm mapshow = new mapShowfrm();
+            mapshow.initializeFrm(_exceptInfoID);
             mapshow.ShowDialog();
         }
 
@@ -164,7 +170,6 @@ namespace ExceptionsCollectionSystem
             {
                 switch (UIType)
                 {
-                    //坑爹的access不能获取到caption属性oledb
                     case 0:
                         //string columnStr1 = "userid as 用户ID,username as 用户名,province as 省份,phone as 电话,remarks as 备注 ";
                         TreeNodeMouseClick(e.Node, "userinfo", "*", "where userid=", "userid", "*");
@@ -247,6 +252,7 @@ namespace ExceptionsCollectionSystem
                 {
                     listView2.ContextMenuStrip = cmstExinfo;
                     ID_m = Convert.ToInt32(lvi.Text);
+                    _exceptInfoID = lvi.SubItems[4].Text;
                 }
                 else
                 {
@@ -301,16 +307,6 @@ namespace ExceptionsCollectionSystem
 
             //异常信息填充
             listView2.Items.Clear();
-            //DataTable exceptionsInfoTable = (DataTable)dataDisposes.Select("exceptionsinfo", columnStr2, whereStr + curNode.Tag);
-            //for (int i = 0; i < exceptionsInfoTable.Rows.Count; i++)
-            //{
-            //    ListViewItem lisitemFill = new ListViewItem(exceptionsInfoTable.Rows[i]["id"].ToString(), 0);
-            //    for (int j = 1; j < exceptionsInfoTable.Columns.Count; j++)
-            //    {
-            //        lisitemFill.SubItems.Add(exceptionsInfoTable.Rows[i][j].ToString());
-            //    }
-            //    listView2.Items.Add(lisitemFill);
-            //}
             List<ExceptionsInfo> list = ExceptionsInfoManage.FindAll(whereStr+curNode.Tag);
             foreach (ExceptionsInfo ex in list)
             {
