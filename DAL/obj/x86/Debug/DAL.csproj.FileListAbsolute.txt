@@ -21,3 +21,12 @@ D:\MyProgram\GitHub\ExceptionsCollectionSystem\DAL\bin\Debug\Model.pdb
 D:\MyProgram\GitHub\ExceptionsCollectionSystem\DAL\obj\x86\Debug\DAL.csprojResolveAssemblyReference.cache
 D:\MyProgram\GitHub\ExceptionsCollectionSystem\DAL\obj\x86\Debug\DAL.dll
 D:\MyProgram\GitHub\ExceptionsCollectionSystem\DAL\obj\x86\Debug\DAL.pdb
+F:\Myprogram\GitHub\ExceptionsCollectionSystem\DAL\bin\Debug\ExceptionsCollection.mdb
+F:\Myprogram\GitHub\ExceptionsCollectionSystem\DAL\bin\Debug\DAL.dll.config
+F:\Myprogram\GitHub\ExceptionsCollectionSystem\DAL\bin\Debug\DAL.dll
+F:\Myprogram\GitHub\ExceptionsCollectionSystem\DAL\bin\Debug\DAL.pdb
+F:\Myprogram\GitHub\ExceptionsCollectionSystem\DAL\bin\Debug\Model.dll
+F:\Myprogram\GitHub\ExceptionsCollectionSystem\DAL\bin\Debug\Model.pdb
+F:\Myprogram\GitHub\ExceptionsCollectionSystem\DAL\obj\x86\Debug\DAL.csprojResolveAssemblyReference.cache
+F:\Myprogram\GitHub\ExceptionsCollectionSystem\DAL\obj\x86\Debug\DAL.dll
+F:\Myprogram\GitHub\ExceptionsCollectionSystem\DAL\obj\x86\Debug\DAL.pdb

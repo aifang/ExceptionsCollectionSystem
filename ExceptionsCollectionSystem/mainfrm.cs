@@ -135,9 +135,8 @@ namespace ExceptionsCollectionSystem
         private void tsmiExinfoMapShow_Click(object sender, EventArgs e)
         {
             mapShowfrm mapshow = new mapShowfrm();
-            mapshow.ShowDialog();
             mapshow.initializeFrm(_exceptInfoID);
-            //mapshow.ShowDialog();
+            mapshow.ShowDialog();
         }
         //异常信息添加
         private void tsmiExinfoAdd_Click(object sender, EventArgs e)

@@ -25,8 +25,10 @@ namespace ExceptionsCollectionSystem
         public mapShowfrm()
         {
             InitializeComponent();
-            this.WindowState = FormWindowState.Maximized; 
+            this.WindowState = FormWindowState.Maximized;
             turnPaper1.OnPageIndexChange += new Component.turnPaper.OnPageIndexChangeDelegate(turnPage);
+
+            loadMap();    //打开地图
         }
 
         string _tableName = null;   //查询的表明
@@ -50,6 +52,11 @@ namespace ExceptionsCollectionSystem
         private void mapShow_Load(object sender, EventArgs e)
         {
 
+            //loadMap();
+        }
+
+        private void loadMap()
+        {
             IWorkspace pWorkspace = myDLL.WorkspaceHelper.GetFGDBWorkspace(@"California.gdb");
             if (pWorkspace != null)
             {
@@ -605,12 +612,8 @@ namespace ExceptionsCollectionSystem
             {
                 _whereTemp = columnValue;
                 cmbo.SelectedIndex = 4;
-                //cmbo.Text = "异常ID";
-                //_tableName = "exceptionsinfo";
-                //_column = "exceptionid";
                 txtKeywork.Text = columnValue;
-                //txtKeywork.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                //DoQuery();
+                DoQuery();
             }
         }
         #endregion
