@@ -22,5 +22,15 @@ namespace BLL
         {
             return ExceptionsTypeService.FindByNameArr(name);
         }
+
+        /// <summary>
+        /// 通过类型名称获取类型Id
+        /// </summary>
+        /// <param name="typeName">类型名称</param>
+        /// <returns>ID</returns>
+        public static string getIDbyName(string typeName)
+        {
+            return ExceptionsTypeService.getIDbyName(typeName);
+        }
     }
 }

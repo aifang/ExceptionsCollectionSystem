@@ -156,7 +156,9 @@ namespace ExceptionsCollectionSystem
         //地图鼠标点击事件
         private void axMapControl1_OnMouseDown(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnMouseDownEvent e)
         {
-
+            if (e.button == 1)
+            {
+            }
         }
 
         //地图鼠标移动事件

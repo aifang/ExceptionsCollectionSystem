@@ -45,6 +45,25 @@ namespace BLL
         {
             return ExceptionsInfoService.returnCount(whereStr);
         }
-        
+
+
+        /// <summary>
+        /// 更新记录
+        /// </summary>
+        public static bool updateExinfo(int ID, string UserID, string ProjectID, string TypeID, string ExcepitionID, string ExcepitionName, string ExcepitionDescri, string Solution, string Remarks)
+        {
+            return ExceptionsInfoService.updateExinfo(ID, UserID, ProjectID, TypeID, ExcepitionID, ExcepitionName, ExcepitionDescri, Solution, Remarks);
+        }
+
+
+        /// <summary>
+        /// 获取某个异常类型的最大编号
+        /// </summary>
+        /// <param name="exid"></param>
+        /// <returns></returns>
+        public static string getMaxExInfoID(string exid)
+        {
+            return ExceptionsInfoService.getMaxExInfoID(exid);
+        }
     }
 }

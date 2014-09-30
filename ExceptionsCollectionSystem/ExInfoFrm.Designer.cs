@@ -51,7 +51,7 @@
             this.btnUseradd = new System.Windows.Forms.Button();
             this.btnTypeadd = new System.Windows.Forms.Button();
             this.btnProadd = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
+            this.lblErr = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -259,23 +259,23 @@
             this.btnProadd.UseVisualStyleBackColor = true;
             this.btnProadd.Click += new System.EventHandler(this.btnProadd_Click);
             // 
-            // label10
+            // lblErr
             // 
-            this.label10.AutoSize = true;
-            this.label10.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label10.ForeColor = System.Drawing.Color.Red;
-            this.label10.Location = new System.Drawing.Point(0, 375);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(0, 12);
-            this.label10.TabIndex = 6;
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblErr.AutoSize = true;
+            this.lblErr.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblErr.ForeColor = System.Drawing.Color.Red;
+            this.lblErr.Location = new System.Drawing.Point(0, 375);
+            this.lblErr.Name = "lblErr";
+            this.lblErr.Size = new System.Drawing.Size(0, 12);
+            this.lblErr.TabIndex = 6;
+            this.lblErr.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ExInfoFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(426, 387);
-            this.Controls.Add(this.label10);
+            this.Controls.Add(this.lblErr);
             this.Controls.Add(this.btnTypeadd);
             this.Controls.Add(this.btnProadd);
             this.Controls.Add(this.btnUseradd);
@@ -332,6 +332,6 @@
         private System.Windows.Forms.Button btnUseradd;
         private System.Windows.Forms.Button btnTypeadd;
         private System.Windows.Forms.Button btnProadd;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblErr;
     }
 }

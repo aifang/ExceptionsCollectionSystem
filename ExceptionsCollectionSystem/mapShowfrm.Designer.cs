@@ -141,7 +141,7 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoScroll = true;
-            this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(255, 169, 219, 246);
+            this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(219)))), ((int)(((byte)(246)))));
             this.flowLayoutPanel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.flowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.flowLayoutPanel1.Controls.Add(this.btnResultArr);
@@ -306,7 +306,7 @@
             // axToolbarControl1
             // 
             this.axToolbarControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.axToolbarControl1.Location = new System.Drawing.Point(582, 3);
+            this.axToolbarControl1.Location = new System.Drawing.Point(571, 3);
             this.axToolbarControl1.Name = "axToolbarControl1";
             this.axToolbarControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axToolbarControl1.OcxState")));
             this.axToolbarControl1.Size = new System.Drawing.Size(154, 28);
@@ -375,7 +375,7 @@
             this.turnPaper1.Size = new System.Drawing.Size(962, 26);
             this.turnPaper1.TabIndex = 0;
             // 
-            // mapShow
+            // mapShowfrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -385,7 +385,7 @@
             this.Controls.Add(this.pnlTitle);
             this.Controls.Add(this.axLicenseControl1);
             this.Controls.Add(this.pnlTurnPage);
-            this.Name = "mapShow";
+            this.Name = "mapShowfrm";
             this.Text = "地图查询";
             this.Load += new System.EventHandler(this.mapShow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).EndInit();

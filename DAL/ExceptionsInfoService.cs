@@ -59,6 +59,11 @@ namespace DAL
             return list;
         }
 
+        /// <summary>
+        /// 返回记录总数
+        /// </summary>
+        /// <param name="whereStr">查询条件</param>
+        /// <returns></returns>
         public static int returnCount(string whereStr)
         {
             int count=0;
@@ -70,6 +75,58 @@ namespace DAL
             }
             odr.Close();
             return count;
+        }
+
+        /// <summary>
+        /// 更新记录
+        /// </summary>
+        /// <returns></returns>
+        public static bool updateExinfo(int ID,string UserID,string ProjectID,string TypeID,string ExcepitionID,string ExcepitionName,string ExceptionDescri,string Solution,string Remarks)
+        {
+            string sql = string.Format("update exceptionsinfo set userid='{0}',projectid='{1}',typeid='{2}',exceptionid='{3}',exceptionName='{4}',ExceptionDescription='{5}',Solution='{6}',Remarks='{7}' where id={8}",
+                                      UserID, ProjectID, TypeID, ExcepitionID, ExcepitionName, ExceptionDescri, Solution, Remarks, ID);
+            try
+            {
+                DBHelper.ExcuteCommand(sql);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 获取某个异常类型的最大编号
+        /// </summary>
+        /// <param name="exid"></param>
+        /// <returns></returns>
+        public static string getMaxExInfoID(string exid)
+        {
+            string sql = "select max(exceptionid) as idmax from exceptionsinfo where exceptionid in(select exceptionid from exceptionsinfo where exceptionid like '" + exid + "%')";
+            try
+            {
+                OleDbDataReader odr = DBHelper.GetReader(sql);
+                while (odr.Read())
+                {
+                    string strID = odr["idmax"].ToString();
+                    if (strID != "")
+                    {
+                         int num = Convert.ToInt32(strID.Substring(strID.LastIndexOf('-') + 1)) + 1;
+                         exid += num.ToString();
+                    }
+                    else
+                    {
+                        exid += '1';
+                    }
+                }
+                odr.Close();
+            }
+            catch
+            {
+                return exid;
+            }
+            return exid;
         }
     }
 }

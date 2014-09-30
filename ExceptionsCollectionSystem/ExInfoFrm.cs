@@ -6,8 +6,10 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using DAL;
 using System.Data.OleDb;
+
+using DAL;
+using BLL;
 
 namespace ExceptionsCollectionSystem
 {
@@ -18,10 +20,13 @@ namespace ExceptionsCollectionSystem
             InitializeComponent();
         }
         private DataDisposes dataDisposes = new DataDisposes();//全局数据库链接
-        public int ID { get; set; }
-        string TypeID = null;
-        string ProID = null;
-        string UserID = null;
+        public int ID { get; set; }        //传入的ID，用于父窗体调用
+        string TypeID = "";              //异常类型
+        string ProID = "";               //项目id
+        string UserID = "";              //用户id
+        string _tempProID = "";          //修改时载入的项目Id
+        string _tempTypeID = "";         //修改时载入的异常类型ID
+        string _tempExInfoID = "";       //修改时载入的异常信息ID tlw-1-1
 
         private void EXInfoFrm_Load(object sender, EventArgs e)
         {
@@ -43,10 +48,14 @@ namespace ExceptionsCollectionSystem
                 OleDbDataReader odr = DBHelper.GetReader(sql);
                 while (odr.Read())
                 {
+                    _tempProID = odr["projectid"].ToString();        //初始化tempID值 
+                    _tempTypeID = odr["typeid"].ToString();
+                    _tempExInfoID = odr["exceptionid"].ToString();
+
                     IDCollections[0] = odr["userid"].ToString();
                     IDCollections[1] = odr["projectid"].ToString();
                     IDCollections[2] = odr["typeid"].ToString();
-                    txtExID.Text = odr["exceptionid"].ToString();
+
                     txtExName.Text = odr["exceptionName"].ToString();
                     txtDescripe.Text = odr["exceptiondescription"].ToString();
                     txtSolution.Text = odr["solution"].ToString();
@@ -56,24 +65,27 @@ namespace ExceptionsCollectionSystem
                 cmbUser.Text = IDtoName("select username from userinfo where userid=" + IDCollections[0], "username");
                 cmbPro.Text = IDtoName("select projectname from projectinfo where projectid=" + IDCollections[1], "projectname");
                 cmbExType.Text = IDtoName("select typeName from exceptionstype where typeid=" + IDCollections[2], "typeName");
-
+                txtExID.Text = _tempExInfoID;    //以免发生变化
             }
         }
+
+        //确定键单击事件
         private void btnOK_Click(object sender, EventArgs e)
         {
+            bool check=false;
             try
             {
                 UserID = convertNametoID("select userid from userinfo where username ='" + cmbUser.Text.Trim() + "'", "userid");
                 ProID = convertNametoID("select projectid from projectinfo where projectName ='" + cmbPro.Text.Trim() + "'", "projectid");
                 if (UserID == null | ProID == null|txtExName.Text.Trim()==null)
                 {
-                    label10.Text = "  请填正确写必要信息！";
+                    lblErr.Text = "  请填正确写必要信息！";
                     return;
                 }
             }
             catch (Exception err)
             {
-                label10.Text = err.Message;
+                lblErr.Text = err.Message;
                 return;
             }
 
@@ -89,12 +101,23 @@ namespace ExceptionsCollectionSystem
                 }
                 catch (Exception ex)
                 {
-                    label10.Text="异常类型不存在请添加.";
+                    lblErr.Text="异常类型不存在请添加.";
                     return;
                 }
             }
-            this.Close();
-            this.Dispose();
+            if (this.Text == "修改异常信息")
+            {
+               check=ExceptionsInfoManage.updateExinfo(ID,UserID,ProID,TypeID,txtExID.Text,txtExName.Text.Trim(),txtDescripe.Text.Trim(),txtSolution.Text .Trim(),txtRemarks.Text.Trim());
+            }
+
+            if (check)
+            {
+                this.Close();
+                this.Dispose();
+            }
+            else
+                lblErr.Text = "保存失败！";
+                
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -105,51 +128,21 @@ namespace ExceptionsCollectionSystem
 
         private void cmbExType_TextChanged(object sender, EventArgs e)
         {
-            setExceptionID();
-        }
-
-        /// <summary>
-        /// 设置异常ID
-        /// </summary>
-        private void setExceptionID()
-        {
-            string sqltypeID = "select typeid from exceptionstype where typename='" + cmbExType.Text.Trim() + "'";
-            OleDbDataReader odr = DBHelper.GetReader(sqltypeID);
-            if (odr.Read())
+            TypeID = ExceptionsTypeManage.getIDbyName(cmbExType.Text.Trim());
+            if (TypeID != "")
             {
-                string typid = odr["typeid"].ToString();
-                TypeID = typid;
-                txtExID.Text = "TLW-" + typid + "-";
-                NewMethod();
-            }
-            else
-            {
-                txtExID.Text = "";
-                //return;
-            }
-            odr.Close();            
-        }
-
-        private void NewMethod()
-        {
-            string sqlExID = "select max(exceptionid) as idmax from exceptionsinfo where exceptionid in(select exceptionid from exceptionsinfo where exceptionid like '" + txtExID.Text + "%')";
-            OleDbDataReader odr1 = DBHelper.GetReader(sqlExID);
-            while (odr1.Read())
-            {
-                string strID = odr1["idmax"].ToString();
-                if (strID != "")
+                if (TypeID == _tempTypeID)
                 {
-                    int exid = Convert.ToInt32(strID.Substring(strID.LastIndexOf('-') + 1)) + 1;
-                    txtExID.Text += exid.ToString();
+                    txtExID.Text = _tempExInfoID;
                 }
                 else
                 {
-                    txtExID.Text += '1';
+                    string strTemp = "TLW-" + TypeID + "-";
+                    txtExID.Text = ExceptionsInfoManage.getMaxExInfoID(strTemp);
                 }
             }
-            odr1.Close();
         }
-
+        
         /// <summary>
         /// 获取自动补完字符串
         /// </summary>
@@ -182,6 +175,7 @@ namespace ExceptionsCollectionSystem
             return strings;
         }
 
+        //用户添加按钮
         private void btnUseradd_Click(object sender, EventArgs e)
         {
             userFrm puserFrom = new userFrm();
@@ -192,6 +186,7 @@ namespace ExceptionsCollectionSystem
             cmbUser.AutoCompleteCustomSource = getSuggestSource("userinfo", "username", cmbUser);
         }
 
+        //项目添加按钮
         private void btnProadd_Click(object sender, EventArgs e)
         {
             projectfrm pro = new projectfrm();
@@ -202,6 +197,7 @@ namespace ExceptionsCollectionSystem
             cmbPro.AutoCompleteCustomSource = getSuggestSource("projectinfo", "projectName", cmbPro);            
         }
 
+        //类型添加按钮
         private void btnTypeadd_Click(object sender, EventArgs e)
         {
             typefrm type = new typefrm();
@@ -217,6 +213,12 @@ namespace ExceptionsCollectionSystem
             }
         }
 
+        /// <summary>
+        /// 名称转为ID
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="columnID"></param>
+        /// <returns></returns>
         private string convertNametoID(string sql,string columnID)
         {
             string id = null;
@@ -229,6 +231,12 @@ namespace ExceptionsCollectionSystem
             return id;
         }
 
+        /// <summary>
+        /// Id转成名称
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="ColumnName"></param>
+        /// <returns></returns>
         private string IDtoName(string sql, string ColumnName)
         {
             string name=null;

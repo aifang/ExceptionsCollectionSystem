@@ -62,5 +62,23 @@ namespace DAL
             odr.Close();
             return userid;
         }
+
+        /// <summary>
+        /// 返回类型ID
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <returns></returns>
+        public static string getIDbyName(string typeName)
+        {
+            string typid = "";
+            string sql = "select typeid from exceptionstype where typename='" + typeName + "'";
+            OleDbDataReader odr = DBHelper.GetReader(sql);
+            while (odr.Read())
+            {
+                typid = odr["typeid"].ToString();
+            }
+            odr.Close();
+            return typid;
+        }
     }
 }
